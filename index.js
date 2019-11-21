@@ -38,13 +38,13 @@ function round(cartas, cartaAnterior) {
   );
   console.log(perguntaAposta);
 
-  if (pergunta == alto || pergunta > card) {
+  if (pergunta == "alto" && pergunta > card) {
     resultadoAposta = carteira + valorAposta;
   } else {
     resultadoAposta = carteira - valorAposta;
   }
 
-  if (pergunta == baixo || pergunta < card) {
+  if (pergunta == baixo && pergunta < card) {
     resultadoAposta = carteira + valorAposta;
   } else {
     resultadoAposta = carteira - valorAposta;
@@ -54,12 +54,6 @@ function round(cartas, cartaAnterior) {
     readlineSync.question("Quanto vai querer apostar? ")
   );
   console.log(valorAposta);
-
-  let cardsShuffled2 = shuffleCards(cartaAnterior);
-  const cartaAnterior = cardsShuffled2[0];
-
-  if (card > cartaAnterior) {
-  } else {
-    resultadoAposta = carteira - valorAposta;
-  }
 }
+
+round(cartas, cartaAnterior);
