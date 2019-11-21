@@ -1,15 +1,20 @@
+/*
+
+1) Inicia o jogo
+2) Pergunta o nome do participante e salva na variavel X
+3) Tira a primeira carta do deck
+4) Embaralha o deck
+5) Pergunta se a proxima carta vai ser mais alta ou baixa
+6) Pergunta quanto dinheiro aposta
+7) Tira primeira carta do deck embaralhado
+8) Verifica se ele acertou (se sim, aumenta a carteira dele, se não, diminui)
+9) Inicia uma nova rodada
+
+*/
 const readlineSync = require("readline-sync");
 
-let userName = readlineSync.question("Qual seu nome? ");
-
-console.log(userName);
-
-function shuffleCards(cards) {
-  return cards[Math.floor(Math.random() * cards.length)];
-}
-
-function createCartas(name, value) {
-  let cartas = [
+function createCards() {
+  const deck = [
     { name: "A", value: 1 },
     { name: "2", value: 2 },
     { name: "3", value: 3 },
@@ -24,36 +29,71 @@ function createCartas(name, value) {
     { name: "Q", value: 12 },
     { name: "K", value: 13 }
   ];
+
+  return deck;
 }
 
-function round(cartas, cartaAnterior) {
-  let carteira = 10000;
-  let valorAposta = 0;
-  let resultadoAposta = 0;
-
-  let cardsShuffled = shuffleCards(cartas); // a cada rodada voce precisa embaralhar as cartas
-  const card = cardsShuffled[0].value;
-  let perguntaAposta = readlineSync.question(
-    "Qual carta vai sair valor alto ou baixa? "
+function round(balance, lastCard, deck) {
+  let afterHint = 0;
+  // Embaralhar o deck
+  const deckShuffled = shuffleDeck(deck);
+  // Remover a primeira carta
+  const card = getFirstCard(deckShuffled);
+  // Perguntar alta ou baixa
+  const optCard = readlineSync.question(
+    "A próxima carta vai ser mais alta ou baixa? (A/B) > "
   );
-  console.log(perguntaAposta);
+  // Perguntar qual valor da aposta
+  const optBet = parseFloat(
+    readlineSync.question(`Quanto vai querer apostar? No máximo ${balance} > `)
+  );
+  //Primeira carta printada
+  console.log(`Virou a carta: ${card} `);
 
-  if (pergunta == "alto" && pergunta > card) {
-    resultadoAposta = carteira + valorAposta;
+  // Verifica se acertou ou errou
+  if (
+    (optCard == "A" && card > lastCard) ||
+    (optCard == "B" && card < lastCard)
+  ) {
+    afterHint = balance + optBet * 2;
+    console.log(`Parabens voce ganhou! sua carteira agora é ${afterHint}`);
   } else {
-    resultadoAposta = carteira - valorAposta;
+    afterHint = balance - optBet;
+    console.log(`Infelizmente voce perdeu! sua carteira agora é ${afterHint}`);
   }
 
-  if (pergunta == baixo && pergunta < card) {
-    resultadoAposta = carteira + valorAposta;
-  } else {
-    resultadoAposta = carteira - valorAposta;
-  }
-
-  valorAposta = parseFloat(
-    readlineSync.question("Quanto vai querer apostar? ")
-  );
-  console.log(valorAposta);
+  return afterHint;
 }
 
-round(cartas, cartaAnterior);
+function initGame() {
+  console.log("Iniciou o jogo! ");
+  const deck = createCards();
+  let balance = 10000;
+  let name = readlineSync.question("Qual seu nome? > ");
+
+  console.log(`Virou a carta número 5 senhor ${name}!`);
+  round(balance, 5, deck);
+}
+
+function getFirstCard(deck) {
+  return deck[0].value;
+}
+
+function shuffleDeck(deck) {
+  var currentIndex = deck.length,
+    temporaryValue,
+    randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = deck[currentIndex];
+    deck[currentIndex] = deck[randomIndex];
+    deck[randomIndex] = temporaryValue;
+  }
+  return deck;
+}
+
+initGame();
