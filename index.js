@@ -35,34 +35,40 @@ function createCards() {
 
 function round(balance, lastCard, deck) {
   let afterHint = 0;
-  // Embaralhar o deck
-  const deckShuffled = shuffleDeck(deck);
-  // Remover a primeira carta
-  const card = getFirstCard(deckShuffled);
-  // Perguntar alta ou baixa
-  const optCard = readlineSync.question(
-    "A próxima carta vai ser mais alta ou baixa? (A/B) > "
-  );
-  // Perguntar qual valor da aposta
-  const optBet = parseFloat(
-    readlineSync.question(`Quanto vai querer apostar? No máximo ${balance} > `)
-  );
-  //Primeira carta printada
-  console.log(`Virou a carta: ${card} `);
+  do {
+    // Embaralhar o deck
+    const deckShuffled = shuffleDeck(deck);
+    // Remover a primeira carta
+    const card = getFirstCard(deckShuffled);
+    // Perguntar alta ou baixa
 
-  // Verifica se acertou ou errou
-  if (
-    (optCard == "A" && card > lastCard) ||
-    (optCard == "B" && card < lastCard)
-  ) {
-    afterHint = balance + optBet * 2;
-    console.log(`Parabens voce ganhou! sua carteira agora é ${afterHint}`);
-  } else {
-    afterHint = balance - optBet;
-    console.log(`Infelizmente voce perdeu! sua carteira agora é ${afterHint}`);
-  }
+    const optCard = readlineSync.question(
+      "A próxima carta vai ser mais alta ou baixa? (A/B) > "
+    );
+    // Perguntar qual valor da aposta
+    const optBet = parseFloat(
+      readlineSync.question(
+        `Quanto vai querer apostar? No máximo ${balance} > `
+      )
+    );
+    //Primeira carta printada
+    console.log(`Virou a carta: ${card} `);
 
-  return afterHint;
+    // Verifica se acertou ou errou
+    if (
+      (optCard == "A" && card > lastCard) ||
+      (optCard == "B" && card < lastCard)
+    ) {
+      afterHint = balance + optBet * 2;
+      console.log(`Parabens voce ganhou! sua carteira agora é ${afterHint}`);
+    } else {
+      afterHint = balance - optBet;
+      console.log(
+        `Infelizmente voce perdeu! sua carteira agora é ${afterHint}`
+      );
+    }
+    return afterHint;
+  } while ((afterHint = !0));
 }
 
 function initGame() {
@@ -70,7 +76,6 @@ function initGame() {
   const deck = createCards();
   let balance = 10000;
   let name = readlineSync.question("Qual seu nome? > ");
-
   console.log(`Virou a carta número 5 senhor ${name}!`);
   round(balance, 5, deck);
 }
@@ -97,3 +102,13 @@ function shuffleDeck(deck) {
 }
 
 initGame();
+
+// Jogar mais rodadas até que o dinheiro acabe.
+// do... while
+// Tirar uma carta na sorte na primeira rodada ao invés do 5.
+
+// Hard
+// Fazer ranking de jogadores.
+// Jogar rodadas até um certo limite. (15 rodadas)
+// Deixar o console mais bonito com cores e sons (quando perde: barulho de buzina, quando ganha: barulho de torcida)
+// Transformar em uma executável pra download.
