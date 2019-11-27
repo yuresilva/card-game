@@ -35,11 +35,17 @@ function createCards() {
 
 function round(balance, lastCard, deck) {
   let afterHint = 0;
+
   do {
     // Embaralhar o deck
     const deckShuffled = shuffleDeck(deck);
     // Remover a primeira carta
     const card = getFirstCard(deckShuffled);
+
+    const firstShuffled = shuffleDeck(deck);
+
+    const lastCard = getFirstCard(firstShuffled);
+
     // Perguntar alta ou baixa
 
     const optCard = readlineSync.question(
@@ -69,8 +75,6 @@ function round(balance, lastCard, deck) {
     }
   } while (afterHint > 0);
 
-  console.log(`Você esta devendo ${afterHint}`);
-
   return afterHint;
 }
 
@@ -80,7 +84,7 @@ function initGame() {
   let balance = 10000;
   let name = readlineSync.question("Qual seu nome? > ");
   console.log(`Virou a carta número 5 senhor ${name}!`);
-  round(balance, 5, deck);
+  round(balance, lastCard, deck);
 }
 
 function getFirstCard(deck) {
