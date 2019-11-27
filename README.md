@@ -1,7 +1,7 @@
 # Card-Game
 
 Um jogo de azar praticada com cartas jogadas com 1 baralho de 52 cartas.
-Com objetivo acumular mais dinheiro com as apostas mas tome cuidado que uma aposta errada você pode perder tudo!.
+Com objetivo acumular mais dinheiro com as apostas, mas tome cuidado que uma aposta errada você pode perder tudo!.
 
 ## Começando
 
