@@ -67,8 +67,11 @@ function round(balance, lastCard, deck) {
         `Infelizmente voce perdeu! sua carteira agora é ${afterHint}`
       );
     }
-    return afterHint;
-  } while ((afterHint = !0));
+  } while (afterHint > 0);
+
+  console.log(`Você esta devendo ${afterHint}`);
+
+  return afterHint;
 }
 
 function initGame() {
