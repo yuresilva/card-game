@@ -42,21 +42,19 @@ function round(balance, lastCard, deck) {
     // Remover a primeira carta
     const card = getFirstCard(deckShuffled);
 
-    const firstShuffled = shuffleDeck(deck);
-
-    const lastCard = getFirstCard(firstShuffled);
-
     // Perguntar alta ou baixa
 
     const optCard = readlineSync.question(
       "A próxima carta vai ser mais alta ou baixa? (A/B) > "
     );
     // Perguntar qual valor da aposta
+
     const optBet = parseFloat(
       readlineSync.question(
         `Quanto vai querer apostar? No máximo ${balance} > `
       )
     );
+
     //Primeira carta printada
     console.log(`Virou a carta: ${card} `);
 
@@ -82,8 +80,11 @@ function initGame() {
   console.log("Iniciou o jogo! ");
   const deck = createCards();
   let balance = 10000;
+
+  const FirstdeckShuffled = shuffleDeck(deck);
+  lastCard = getFirstCard(FirstdeckShuffled);
   let name = readlineSync.question("Qual seu nome? > ");
-  console.log(`Virou a carta número 5 senhor ${name}!`);
+  console.log(`Virou a carta número ${lastCard}  senhor ${name}!`);
   round(balance, lastCard, deck);
 }
 
